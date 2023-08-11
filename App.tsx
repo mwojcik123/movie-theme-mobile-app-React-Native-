@@ -1,21 +1,9 @@
-
+import MainNav from './components/navigation/MainNav';
 import React from 'react';
-import {
-  SafeAreaView,
-
-  StyleSheet,
-  Text,
-
-  View,
-} from 'react-native';
-
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 
 function App() {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text>my app 123</Text>
-    </SafeAreaView>
-  );
+  return <MainNav />;
 }
 
 const styles = StyleSheet.create({
