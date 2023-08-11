@@ -2,12 +2,16 @@ import MainNav from './components/navigation/MainNav';
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {PaperProvider} from 'react-native-paper';
+import {Provider as StoreProvider} from 'react-redux';
+import store from './components/store';
 
 function App() {
   return (
-    <PaperProvider>
-      <MainNav />
-    </PaperProvider>
+    <StoreProvider store={store}>
+      <PaperProvider>
+        <MainNav />
+      </PaperProvider>
+    </StoreProvider>
   );
 }
 

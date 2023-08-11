@@ -21,7 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 // const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
 export default function Introduction() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   return (
     <SafeAreaView style={tw`bg-black h-full`}>
       <StatusBar hidden={true} />

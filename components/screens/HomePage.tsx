@@ -20,59 +20,89 @@ import {
   BORDERRADIUS,
   MARGIN_PADDING,
 } from '../assets/style-theme';
-
-interface AppProps {}
+import {connect} from 'react-redux';
+import {elo} from '../actions/videos-actions';
+// interface AppProps {}
 interface Props {
   search: string;
 }
 
-function HomePage() {
-  const [search, setSearch] = useState<string>('');
+class HomePage extends Component<any, Props> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      search: '',
+    };
+    this.clearSearchField = this.clearSearchField.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount(): void {
+    this.props.elo();
+  }
+
+  handleClick(e: any) {
+    this.setState({search: e});
+  }
+
+  clearSearchField(e: any) {
+    this.setState({search: ''});
+  }
+  // const [search, setSearch] = useState<string>('');
   // const [searchText, setSearchText] = useState<string>('');
-  return (
-    <SafeAreaView style={styles.fdf}>
-      <StatusBar animated={true} backgroundColor={COLORS.black} />
-      <View style={styles.appBarWrapper}>
-        <View style={styles.appBar}>
-          <Text style={styles.textEvent}>MyTube</Text>
+  render() {
+    return (
+      <SafeAreaView style={styles.fdf}>
+        <StatusBar animated={true} backgroundColor={COLORS.black} />
+        <View style={styles.appBarWrapper}>
+          <View style={styles.appBar}>
+            <Text style={styles.textEvent}>MyTube</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.inputBox}>
-        <TextInput
-          name="search"
-          value={search}
-          style={styles.textInput}
-          placeholder="Search..."
-          placeholderTextColor={COLORS.grey}
-          onChangeText={textInput => setSearch(textInput)}
-        />
-        <View style={styles.iconContainer}>
-          <TouchableOpacity style={styles.searchIcon}>
-            <AntDesign
-              name="search1"
-              color={COLORS.white}
-              size={SIZES.size_28}
-            />
-          </TouchableOpacity>
-          {search == '' ? null : (
+        <View style={styles.inputBox}>
+          <TextInput
+            name="search"
+            value={this.state.search}
+            style={styles.textInput}
+            placeholder="Search..."
+            placeholderTextColor={COLORS.grey}
+            onChangeText={this.handleClick}
+          />
+          <View style={styles.iconContainer}>
             <TouchableOpacity style={styles.searchIcon}>
               <AntDesign
-                name="closecircle"
-                color={COLORS.red}
-                size={SIZES.size_22}
+                name="search1"
+                color={COLORS.white}
+                size={SIZES.size_28}
               />
             </TouchableOpacity>
-          )}
+            {this.state.search == '' ? null : (
+              <TouchableOpacity
+                activeOpacity={0.1}
+                style={styles.searchIcon}
+                onPress={this.clearSearchField}>
+                <AntDesign
+                  name="closecircle"
+                  color={COLORS.red}
+                  size={SIZES.size_22}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
-      </View>
-      <ScrollView style={styles.headerTitle}>
-        <Text style={styles.textEvent}>sdas: {search}</Text>
-      </ScrollView>
-    </SafeAreaView>
-  );
+        <ScrollView style={styles.headerTitle}>
+          <Text style={styles.textEvent}>sdas: {this.props.count}</Text>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 }
 
-export default HomePage;
+const mapStateToProps = (state: any) => ({
+  count: state.videos.count,
+});
+
+export default connect(mapStateToProps, {elo})(HomePage);
 
 const styles = StyleSheet.create({
   fdf: {
