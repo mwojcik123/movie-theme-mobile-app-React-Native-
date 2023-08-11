@@ -1,4 +1,4 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   NavigationContainer,
   NavigatorScreenParams,
@@ -12,10 +12,14 @@ import HomePage from '../screens/HomePage';
 const Stack = createNativeStackNavigator();
 
 function MainNav() {
+  const [isFirstTime, setFirstTime] = useState(true);
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Introduction" component={Introduction} />
+        {isFirstTime ? (
+          <Stack.Screen name="Introduction" component={Introduction} />
+        ) : null}
         <Stack.Screen name="Home" component={HomeNav} />
       </Stack.Navigator>
     </NavigationContainer>

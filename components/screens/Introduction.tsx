@@ -9,7 +9,14 @@ import {
   SafeAreaView,
 } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
-import img from '../assets/splash.png';
+import img from '../assets/splashDarkTheme.png';
+import {
+  COLORS,
+  SIZES,
+  FONTS,
+  BORDERRADIUS,
+  MARGIN_PADDING,
+} from '../assets/style-theme';
 import {useNavigation} from '@react-navigation/native';
 // const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
@@ -43,27 +50,27 @@ export default function Introduction() {
 
 const styles = StyleSheet.create({
   appBarHorizontial: {
-    marginHorizontal: 23,
-    marginTop: 18,
+    marginHorizontal: MARGIN_PADDING.mp_24,
+    marginTop: MARGIN_PADDING.mp_18,
   },
   textHeader: {
-    fontFamily: 'Montserrat-Bold',
-    fontSize: 50,
+    fontFamily: FONTS.bold,
+    fontSize: SIZES.size_50,
     textAlign: 'center',
-    color: 'black',
+    color: COLORS.white,
   },
   textDescription: {
-    marginTop: 18,
-    fontFamily: 'Montserrat-Regural',
+    marginTop: MARGIN_PADDING.mp_18,
+    fontFamily: FONTS.regular,
 
-    fontSize: 18,
+    fontSize: SIZES.size_18,
     textAlign: 'center',
 
-    color: 'black',
+    color: COLORS.white,
   },
   textEvent: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: SIZES.size_18,
+    color: COLORS.white,
   },
   container: {
     flex: 1,
@@ -78,11 +85,11 @@ const styles = StyleSheet.create({
     minWidth: '80%',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: '#fa2dd0',
-    padding: 15,
-    marginLeft: 25,
-    marginRight: 25,
-    marginBottom: 10,
-    borderRadius: 15,
+    backgroundColor: COLORS.red,
+    padding: MARGIN_PADDING.mp_12,
+    marginLeft: MARGIN_PADDING.mp_24,
+    marginRight: MARGIN_PADDING.mp_24,
+    marginBottom: MARGIN_PADDING.mp_10,
+    borderRadius: MARGIN_PADDING.mp_15,
   },
 });

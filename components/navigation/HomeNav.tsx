@@ -11,14 +11,13 @@ const ContentStack = createNativeStackNavigator();
 
 function HomeNav() {
   return (
-    <ContentStack.Navigator screenOptions={{headerShown: true}}>
+    <ContentStack.Navigator screenOptions={{headerShown: false}}>
       <ContentStack.Screen
         name="HomePage"
         component={HomePage}
         options={{
           headerTintColor: 'white',
           headerStyle: {backgroundColor: 'indigo'},
-          cardStyle: {flex: 1},
         }}
         //   cardStyle={{backgroundColor: 'transparent' }}
       />

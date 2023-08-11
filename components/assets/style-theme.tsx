@@ -13,17 +13,6 @@ export const COLORS: Color = {
 };
 // colors from: https://colorhunt.co/palette/171717444444da0037ededed
 
-interface Size {
-  size_4: number;
-  size_8: number;
-  size_12: number;
-  size_18: number;
-  size_22: number;
-  size_28: number;
-  size_32: number;
-  size_50: number;
-}
-
 interface BorderRadius {
   radius_4: number;
   radius_8: number;
@@ -45,6 +34,17 @@ export const BORDERRADIUS: BorderRadius = {
   radius_50: 50,
   radius_100: 100,
 };
+
+interface Size {
+  size_4: number;
+  size_8: number;
+  size_12: number;
+  size_18: number;
+  size_22: number;
+  size_28: number;
+  size_32: number;
+  size_50: number;
+}
 
 export const SIZES: Size = {
   size_4: 4,

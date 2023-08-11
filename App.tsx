@@ -1,9 +1,14 @@
 import MainNav from './components/navigation/MainNav';
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {PaperProvider} from 'react-native-paper';
 
 function App() {
-  return <MainNav />;
+  return (
+    <PaperProvider>
+      <MainNav />
+    </PaperProvider>
+  );
 }
 
 const styles = StyleSheet.create({
