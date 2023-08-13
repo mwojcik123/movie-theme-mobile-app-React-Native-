@@ -172,7 +172,7 @@ class HomePage extends Component<any, Props> {
                   <MovieWindowSearch
                     key={item.id}
                     func={this.props.MovieDetail}
-                    backdrop_path={item.backdrop_path}
+                    poster_path={item.poster_path}
                     id={item.id}
                     title={item.title}
                     popularity={item.popularity}
@@ -215,7 +215,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}
@@ -244,7 +244,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}
@@ -272,7 +272,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}
@@ -300,7 +300,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}
@@ -328,7 +328,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}
@@ -356,7 +356,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}
@@ -384,7 +384,7 @@ class HomePage extends Component<any, Props> {
                       <MovieWindow
                         key={item.id}
                         func={this.props.MovieDetail}
-                        backdrop_path={item.backdrop_path}
+                        poster_path={item.poster_path}
                         id={item.id}
                         title={item.title}
                         popularity={item.popularity}

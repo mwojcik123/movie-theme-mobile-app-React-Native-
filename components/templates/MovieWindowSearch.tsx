@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
 
     width: width / 2,
   },
+
   cardImage: {
     aspectRatio: 3 / 2,
     borderRadius: BORDER_RADIUS.radius_20,
