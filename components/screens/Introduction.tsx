@@ -14,14 +14,16 @@ import {
   COLORS,
   SIZES,
   FONTS,
-  BORDERRADIUS,
+  BORDER_RADIUS,
   MARGIN_PADDING,
 } from '../assets/style-theme';
+
 import {useNavigation} from '@react-navigation/native';
 // const image = {uri: 'https://legacy.reactjs.org/logo-og.png'};
 
 export default function Introduction() {
   const navigation = useNavigation<any>();
+
   return (
     <SafeAreaView style={tw`bg-black h-full`}>
       <StatusBar hidden={true} />
@@ -40,7 +42,9 @@ export default function Introduction() {
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.5}
-          onPress={() => navigation.replace('Home')}>
+          onPress={() => {
+            navigation.replace('Home');
+          }}>
           <Text style={styles.textEvent}>Continue</Text>
         </TouchableOpacity>
       </ImageBackground>
@@ -55,6 +59,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontFamily: FONTS.bold,
+    // fontWeight: '900',
     fontSize: SIZES.size_50,
     textAlign: 'center',
     color: COLORS.white,
@@ -90,6 +95,6 @@ const styles = StyleSheet.create({
     marginLeft: MARGIN_PADDING.mp_24,
     marginRight: MARGIN_PADDING.mp_24,
     marginBottom: MARGIN_PADDING.mp_10,
-    borderRadius: MARGIN_PADDING.mp_15,
+    borderRadius: BORDER_RADIUS.radius_10,
   },
 });

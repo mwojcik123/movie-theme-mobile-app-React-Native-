@@ -3,6 +3,7 @@ interface Color {
   black: string;
   grey: string;
   red: string;
+  gold: string;
 }
 
 export const COLORS: Color = {
@@ -10,6 +11,7 @@ export const COLORS: Color = {
   black: '#171717',
   grey: '#444444',
   red: '#DA0037',
+  gold: '#ffd700',
 };
 // colors from: https://colorhunt.co/palette/171717444444da0037ededed
 
@@ -24,7 +26,7 @@ interface BorderRadius {
   radius_100: number;
 }
 
-export const BORDERRADIUS: BorderRadius = {
+export const BORDER_RADIUS: BorderRadius = {
   radius_4: 4,
   radius_8: 8,
   radius_10: 10,
@@ -39,6 +41,7 @@ interface Size {
   size_4: number;
   size_8: number;
   size_12: number;
+  size_16: number;
   size_18: number;
   size_22: number;
   size_28: number;
@@ -50,6 +53,7 @@ export const SIZES: Size = {
   size_4: 4,
   size_8: 8,
   size_12: 12,
+  size_16: 16,
   size_18: 18,
   size_22: 22,
   size_28: 28,
@@ -97,10 +101,10 @@ interface Fonts {
   thin: string;
 }
 
-export const FONTS = {
-  normal: 'Montserrant-Black',
-  bold: 'Montserrant-Bold',
-  light: 'Montserrant-Light',
-  regular: 'Montserrant-Regular',
-  thin: 'Montserrant-Thin',
+export const FONTS: Fonts = {
+  normal: 'Montserrat-Black',
+  bold: 'Montserrat-Bold',
+  light: 'Montserrat-Light',
+  regular: 'Montserrat-Regular',
+  thin: 'Montserrat-Thin',
 };

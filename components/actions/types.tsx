@@ -1,2 +1,30 @@
-export const ONE_MORE = 'ONE_MORE';
-export const ONE_LESS = 'ONE_LESS';
+//Test
+// export const ONE_MORE = 'ONE_MORE';
+// export const ONE_LESS = 'ONE_LESS';
+// is Show introduction in first time
+export const IS_SHOW = 'IS_SHOW';
+export const YES = 'YES';
+export const SEARCH_MOVIES = 'SEARCH_MOVIES';
+export const MOVIES_POPULAR = 'POPULAR_POPULAR';
+export const MOVIE_DETAIL = 'MOVIE_DETAIL';
+
+//MOVIE BY CATEGORIES
+export const MOVIES_ACTION = 'MOVIES_ACTION';
+export const MOVIES_ADVENTURE = 'MOVIES_ADVENTURE';
+export const MOVIES_ANIMATION = 'MOVIES_ANIMATION';
+export const MOVIES_COMEDY = 'MOVIES_COMEDY';
+export const MOVIES_CRIME = 'MOVIES_CRIME';
+export const MOVIES_DOCUMENTARY = 'MOVIES_DOCUMENTARY';
+export const MOVIES_DRAMA = 'MOVIES_DRAMA';
+export const MOVIES_FAMILY = 'MOVIES_FAMILY';
+export const MOVIES_FANTASY = 'MOVIES_FANTASY';
+export const MOVIES_HISTORY = 'MOVIES_HISTORY';
+export const MOVIES_HORROR = 'MOVIES_HORROR';
+export const MOVIES_MUSIC = 'MOVIES_MUSIC';
+export const MOVIES_MYSTERY = 'MOVIES_MYSTERY';
+export const MOVIES_ROMANCE = 'MOVIES_ROMANCE';
+export const MOVIES_SCIENCE_FICTION = 'MOVIES_SCIENCE_FICTION';
+export const MOVIES_TV_MOVIE = 'MOVIES_TV_MOVIE';
+export const MOVIES_THRILLER = 'MOVIES_THRILLER';
+export const MOVIES_WAR = 'MOVIES_WAR';
+export const MOVIES_WESTERN = 'MOVIES_WESTERN';

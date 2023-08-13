@@ -6,7 +6,7 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import Home from "../screens/Home";
 import HomePage from '../screens/HomePage';
-
+import DetailPage from '../screens/DetailPage';
 const ContentStack = createNativeStackNavigator();
 
 function HomeNav() {
@@ -15,6 +15,15 @@ function HomeNav() {
       <ContentStack.Screen
         name="HomePage"
         component={HomePage}
+        options={{
+          headerTintColor: 'white',
+          headerStyle: {backgroundColor: 'indigo'},
+        }}
+        //   cardStyle={{backgroundColor: 'transparent' }}
+      />
+      <ContentStack.Screen
+        name="DetailPage"
+        component={DetailPage}
         options={{
           headerTintColor: 'white',
           headerStyle: {backgroundColor: 'indigo'},
