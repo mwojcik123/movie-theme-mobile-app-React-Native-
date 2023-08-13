@@ -29,7 +29,7 @@ export default function MovieWindow(video: any, func: Function) {
   const image = `https://image.tmdb.org/t/p/w500${video.backdrop_path}`;
 
   return (
-    <View style={styles.window}>
+    <View style={styles.window} key={video.id}>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('DetailPage'), video.func(video.id);
@@ -42,15 +42,13 @@ export default function MovieWindow(video: any, func: Function) {
         />
 
         <Text style={styles.textTitle}>{video.title}</Text>
-        <View style={styles.rowContent}>
-          <View style={styles.popularityContainer}>
-            <AntDesign name="eye" color={COLORS.grey} size={16} />
-            <Text style={styles.popularityText}>{video.popularity}</Text>
-          </View>
-          <View style={styles.popularityContainer}>
-            <AntDesign name="star" color={COLORS.gold} size={16} />
-            <Text style={styles.popularityText}>({video.vote_average}/10)</Text>
-          </View>
+        <View style={styles.popularityContainer}>
+          <AntDesign name="eye" color={COLORS.grey} size={16} />
+          <Text style={styles.popularityText}>{video.popularity}</Text>
+        </View>
+        <View style={styles.popularityContainer}>
+          <AntDesign name="star" color={COLORS.gold} size={16} />
+          <Text style={styles.popularityText}>({video.vote_average}/10)</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -59,13 +57,15 @@ export default function MovieWindow(video: any, func: Function) {
 
 const styles = StyleSheet.create({
   window: {
-    padding: MARGIN_PADDING.mp_4,
+    padding: MARGIN_PADDING.mp_8,
+    // height: 310,
 
-    width: width - 100,
+    width: width / 2,
   },
   cardImage: {
     aspectRatio: 3 / 2,
     borderRadius: BORDER_RADIUS.radius_20,
+    backgroundColor: COLORS.grey,
   },
   textTitle: {
     fontFamily: FONTS.light,
@@ -84,12 +84,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   popularityContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    marginHorizontal: MARGIN_PADDING.mp_4,
-  },
-  rowContent: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',

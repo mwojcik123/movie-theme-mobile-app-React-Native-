@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {
   SEARCH_MOVIES,
+  LOADING_MOVIE_DETAIL,
+  CLEAR_SEARCH_MOVIES,
   MOVIE_DETAIL,
   MOVIES_POPULAR,
   MOVIES_ACTION,
@@ -24,6 +26,7 @@ import {
   MOVIES_WAR,
   MOVIES_WESTERN,
   YES,
+  SEARCH_MOVIES_MORE,
 } from './types';
 import {API_KEY} from './api-keys';
 import {Dispatch} from 'redux';
@@ -192,7 +195,7 @@ export const searchMovieList =
   (dispatch: Dispatch, getState: () => any) => {
     axios
       .get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}&page=${page}`,
+        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}`,
       )
       .then(res => {
         console.log(res.data);
@@ -203,8 +206,31 @@ export const searchMovieList =
       });
   };
 
+export const searchMovieListMore =
+  (keyword: string, page: number) =>
+  (dispatch: Dispatch, getState: () => any) => {
+    axios
+      .get(
+        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}&page=${page}`,
+      )
+      .then(res => {
+        console.log(res.data);
+        dispatch({
+          type: SEARCH_MOVIES_MORE,
+          payload: res.data,
+        });
+      });
+  };
+
+export const clearSearch = () => (dispatch: Dispatch, getState: () => any) => {
+  dispatch({
+    type: CLEAR_SEARCH_MOVIES,
+  });
+};
+
 export const MovieDetail =
   (id: number) => (dispatch: Dispatch, getState: () => any) => {
+    dispatch({type: LOADING_MOVIE_DETAIL});
     axios
       .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`)
       .then(res => {

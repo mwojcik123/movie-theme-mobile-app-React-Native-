@@ -17,6 +17,7 @@ import {
 } from 'react-native';
 import tw from 'tailwind-react-native-classnames';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   COLORS,
   SIZES,
@@ -25,8 +26,10 @@ import {
   MARGIN_PADDING,
 } from '../assets/style-theme';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   searchMovieList,
+  searchMovieListMore,
   MovieDetail,
   _test_function,
   popularMovieList,
@@ -36,9 +39,12 @@ import {
   crimeMovies,
   adventureMovies,
   horrorMovies,
+  clearSearch,
 } from '../actions/videos-actions';
 import MovieWindow from '../templates/MovieWindow';
+import MovieWindowSearch from '../templates/MovieWindowSearch';
 import Pagination from '../templates/Pagination';
+import Spiner from '../templates/Spiner';
 interface Props {
   search: string;
   page: number;
@@ -66,6 +72,7 @@ class HomePage extends Component<any, Props> {
     this.clearSearchField = this.clearSearchField.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.onSearch = this.onSearch.bind(this);
+    this.onSearchMore = this.onSearchMore.bind(this);
   }
 
   componentDidMount(): void {
@@ -78,8 +85,16 @@ class HomePage extends Component<any, Props> {
     this.props.horrorMovies();
     console.log(this.props.results);
   }
+  static propTypes = {
+    searchMovieListMore: PropTypes.func.isRequired,
+  };
   onSearch() {
-    this.props.searchMovieList(this.state.search, this.state.page);
+    this.setState({page: 1});
+    this.props.searchMovieList(this.state.search, 1);
+  }
+  onSearchMore() {
+    this.props.searchMovieListMore(this.state.search, this.state.page + 1);
+    this.setState({page: this.state.page + 1});
   }
   handleClick(e: any) {
     this.setState({search: e});
@@ -87,17 +102,29 @@ class HomePage extends Component<any, Props> {
 
   clearSearchField(e: any) {
     this.setState({search: '', page: 1});
+    this.props.clearSearch();
   }
   // const [search, setSearch] = useState<string>('');
   // const [searchText, setSearchText] = useState<string>('');
   render() {
     const {width, height} = Dimensions.get('window');
+    const {
+      isLoadingmoviePopularList,
+      isLoadingmovieActionList,
+      isLoadingmovieAnimationList,
+      isLoadingmovieComedyList,
+      isLoadingmovieCrimeList,
+      isLoadingmovieAdventureList,
+      isLoadingmovieHorrorList,
+      isSearch,
+      movieSearchList,
+    } = this.props;
     return (
       <SafeAreaView style={styles.fdf}>
         <StatusBar animated={true} backgroundColor={COLORS.black} />
         <View style={styles.appBarWrapper}>
           <View style={styles.appBar}>
-            <Text style={styles.textEvent}>MyTube</Text>
+            <Text style={styles.textEvent}>MyCinema</Text>
           </View>
         </View>
         <ScrollView>
@@ -133,234 +160,243 @@ class HomePage extends Component<any, Props> {
               )}
             </View>
           </View>
-          <Text style={styles.textTitle}>Popular Movies</Text>
-          <FlatList
-            data={this.props.moviePopularList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+          {isSearch ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-around',
+              }}>
+              {this.props.movieSearchList.results.map((item: any) => {
+                return (
+                  <MovieWindowSearch
+                    key={item.id}
+                    func={this.props.MovieDetail}
+                    backdrop_path={item.backdrop_path}
+                    id={item.id}
+                    title={item.title}
+                    popularity={item.popularity}
+                    vote_average={item.vote_average}
+                  />
+                );
+              })}
+              {this.props.movieSearchList.results.length === 0 ? (
+                <Text style={styles.textNoFindResults}>
+                  No search results found. ;(
+                </Text>
+              ) : null}
+              {this.state.page ==
+              this.props.movieSearchList.total_pages ? null : (
+                <TouchableOpacity
+                  style={styles.button}
+                  activeOpacity={0.5}
+                  onPress={this.onSearchMore}>
+                  <Text style={styles.textEvent}>More</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          ) : (
+            <View>
+              <Text style={styles.textTitle}>Popular Movies</Text>
+              {isLoadingmoviePopularList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.moviePopularList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
+              )}
 
-          <Text style={styles.textTitle}>Action</Text>
-          <FlatList
-            data={this.props.movieActionList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+              <Text style={styles.textTitle}>Action</Text>
+              {isLoadingmovieActionList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.movieActionList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
-          <Text style={styles.textTitle}>Animations</Text>
-          <FlatList
-            data={this.props.movieAnimationList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+              )}
+              <Text style={styles.textTitle}>Animations</Text>
+              {isLoadingmovieAnimationList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.movieAnimationList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
-          <Text style={styles.textTitle}>Comedy</Text>
-          <FlatList
-            data={this.props.movieComedyList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+              )}
+              <Text style={styles.textTitle}>Comedy</Text>
+              {isLoadingmovieComedyList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.movieComedyList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
-          <Text style={styles.textTitle}>Crime</Text>
-          <FlatList
-            data={this.props.movieCrimeList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+              )}
+              <Text style={styles.textTitle}>Crime</Text>
+              {isLoadingmovieCrimeList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.movieCrimeList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
-          <Text style={styles.textTitle}>Adventure</Text>
-          <FlatList
-            data={this.props.movieAdventureList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+              )}
+              <Text style={styles.textTitle}>Adventure</Text>
+              {isLoadingmovieAdventureList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.movieAdventureList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
-          <Text style={styles.textTitle}>Horror</Text>
-          <FlatList
-            data={this.props.movieHorrorList.results}
-            keyExtractor={(item: any) => item.id}
-            bounces={false}
-            snapToInterval={width - 100}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.containerGap32}
-            decelerationRate={0}
-            renderItem={({item, index}) => {
-              // if (!item.original_title) {
-              //   return (
-              //     <View
-              //       style={{
-              //         width: (width - (width * 0.7 + SIZES.size_22 * 2)) / 2,
-              //       }}></View>
-              //   );
-              // }
-              return (
-                <MovieWindow
-                  key={item.id}
-                  func={this.props.MovieDetail}
-                  backdrop_path={item.backdrop_path}
-                  id={item.id}
-                  title={item.title}
-                  popularity={item.popularity}
-                  vote_average={item.vote_average}
+              )}
+              <Text style={styles.textTitle}>Horror</Text>
+              {isLoadingmovieHorrorList ? (
+                <Spiner />
+              ) : (
+                <FlatList
+                  data={this.props.movieHorrorList.results}
+                  keyExtractor={(item: any) => item.id}
+                  bounces={false}
+                  snapToInterval={width - 100}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.containerGap32}
+                  decelerationRate={0}
+                  renderItem={({item, index}) => {
+                    return (
+                      <MovieWindow
+                        key={item.id}
+                        func={this.props.MovieDetail}
+                        backdrop_path={item.backdrop_path}
+                        id={item.id}
+                        title={item.title}
+                        popularity={item.popularity}
+                        vote_average={item.vote_average}
+                      />
+                    );
+                  }}
                 />
-              );
-            }}
-          />
+              )}
+            </View>
+          )}
         </ScrollView>
-
-        <Pagination currentPage={1} pages={10} />
       </SafeAreaView>
     );
   }
@@ -368,6 +404,7 @@ class HomePage extends Component<any, Props> {
 
 const mapStateToProps = (state: any) => ({
   count: state.videos.count,
+  isSearch: state.videos.isSearch,
   movieSearchList: state.videos.movieSearchList,
   moviePopularList: state.videos.moviePopularList,
   // movies by genre
@@ -377,10 +414,19 @@ const mapStateToProps = (state: any) => ({
   movieCrimeList: state.videos.movieCrimeList,
   movieAdventureList: state.videos.movieAdventureList,
   movieHorrorList: state.videos.movieHorrorList,
+  // isloadin by genre
+  isLoadingmoviePopularList: state.videos.isLoadingmoviePopularList,
+  isLoadingmovieActionList: state.videos.isLoadingmovieActionList,
+  isLoadingmovieAnimationList: state.videos.isLoadingmovieAnimationList,
+  isLoadingmovieComedyList: state.videos.isLoadingmovieComedyList,
+  isLoadingmovieCrimeList: state.videos.isLoadingmovieCrimeList,
+  isLoadingmovieAdventureList: state.videos.isLoadingmovieAdventureList,
+  isLoadingmovieHorrorList: state.videos.isLoadingmovieHorrorList,
 });
 
 export default connect(mapStateToProps, {
   searchMovieList,
+  searchMovieListMore,
   MovieDetail,
   _test_function,
   popularMovieList,
@@ -391,6 +437,7 @@ export default connect(mapStateToProps, {
   crimeMovies,
   adventureMovies,
   horrorMovies,
+  clearSearch,
 })(HomePage);
 
 const styles = StyleSheet.create({
@@ -402,6 +449,12 @@ const styles = StyleSheet.create({
     fontSize: SIZES.size_18,
 
     color: COLORS.white,
+    fontFamily: FONTS.regular,
+  },
+  textNoFindResults: {
+    fontSize: SIZES.size_18,
+    marginVertical: MARGIN_PADDING.mp_15,
+    color: COLORS.grey,
     fontFamily: FONTS.regular,
   },
   container: {
@@ -427,7 +480,7 @@ const styles = StyleSheet.create({
     marginTop: MARGIN_PADDING.mp_12,
   },
   iconContainer: {
-    width: '20%',
+    minWidth: '10%',
     direction: 'rtl',
     flexDirection: 'row-reverse',
     flexWrap: 'nowrap',
@@ -441,6 +494,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputBox: {
+    flex: 1,
     display: 'flex',
     paddingVertical: MARGIN_PADDING.mp_2,
     paddingHorizontal: MARGIN_PADDING.mp_8,
@@ -482,5 +536,17 @@ const styles = StyleSheet.create({
     // margin,
     // gap: MARGIN_PADDING.mp_10,
     paddingHorizontal: 50,
+  },
+  button: {
+    position: 'relative',
+    minWidth: '60%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: COLORS.red,
+    padding: MARGIN_PADDING.mp_8,
+    marginLeft: MARGIN_PADDING.mp_24,
+    marginRight: MARGIN_PADDING.mp_24,
+    marginBottom: MARGIN_PADDING.mp_10,
+    borderRadius: BORDER_RADIUS.radius_10,
   },
 });
