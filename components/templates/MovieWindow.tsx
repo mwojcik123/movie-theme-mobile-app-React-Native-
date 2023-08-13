@@ -26,7 +26,7 @@ const {width, height} = Dimensions.get('window');
 export default function MovieWindow(video: any, func: Function) {
   const navigation = useNavigation<any>();
 
-  const image = `https://image.tmdb.org/t/p/w500${video.backdrop_path}`;
+  const image = `https://image.tmdb.org/t/p/w500${video.poster_path}`;
 
   return (
     <View style={styles.window}>
