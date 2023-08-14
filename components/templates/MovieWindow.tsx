@@ -32,7 +32,7 @@ export default function MovieWindow(video: any, func: Function) {
     <View style={styles.window}>
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('DetailPage'), video.func(video.id);
+          navigation.replace('DetailPage'), video.func(video.id);
         }}>
         <Image
           style={styles.cardImage}
@@ -63,6 +63,12 @@ const styles = StyleSheet.create({
 
     width: width - 100,
   },
+  rowContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginTop: MARGIN_PADDING.mp_4,
+  },
   cardImage: {
     aspectRatio: 3 / 2,
     borderRadius: BORDER_RADIUS.radius_20,
@@ -88,11 +94,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginHorizontal: MARGIN_PADDING.mp_4,
-  },
-  rowContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
   popularityText: {
     alignItems: 'center',

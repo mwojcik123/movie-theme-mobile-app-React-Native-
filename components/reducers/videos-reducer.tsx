@@ -26,6 +26,11 @@ import {
   SEARCH_MOVIES_MORE,
   CLEAR_SEARCH_MOVIES,
   LOADING_MOVIE_DETAIL,
+  DETAIL_GUEST_MOVIES,
+  IS_LOADING_DETAIL_GUEST_MOVIES,
+  CLEAR_DETAIL_MOVIE,
+  MOVIE_DETAIL_ERROR,
+  SEARCHING_MOVIES,
 } from '../actions/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { As } from 'react-native';
@@ -34,7 +39,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Action {
   type: string;
-  payload: object;
+  payload: any;
 }
 
 interface MovieList {
@@ -46,7 +51,9 @@ interface MovieList {
 
 interface InitialState {
   isSearch: boolean;
+  isLoadingDetailGuestMovies: boolean;
   isLoadingDetail: boolean;
+  isSearchingMovies: boolean;
   isLoadingmoviePopularList: boolean;
   isLoadingmovieActionList: boolean;
   isLoadingmovieAnimationList: boolean;
@@ -62,12 +69,15 @@ interface InitialState {
   movieCrimeList: MovieList;
   movieAdventureList: MovieList;
   movieHorrorList: MovieList;
+  detailMovieGuest: Array<any>;
   movieDetail: object;
 }
 
 const initialState: InitialState = {
   isSearch: false,
+  isSearchingMovies: false,
   isLoadingDetail: false,
+  isLoadingDetailGuestMovies: false,
   isLoadingmoviePopularList: true,
   isLoadingmovieActionList: true,
   isLoadingmovieAnimationList: true,
@@ -87,6 +97,7 @@ const initialState: InitialState = {
     total_pages: 1,
     total_results: 0,
   },
+  detailMovieGuest: [],
   //by genre
   movieActionList: {
     page: 1,
@@ -133,13 +144,20 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         isSearch: true,
+        isSearchingMovies: false,
         movieSearchList: action.payload,
       };
-
+    case SEARCHING_MOVIES:
+      return {
+        ...state,
+        isSearchingMovies: true,
+        isSearch: true,
+      };
     case CLEAR_SEARCH_MOVIES:
       return {
         ...state,
         isSearch: false,
+        isSearchingMovies: false,
         movieSearchList: {
           page: 1,
           results: [],
@@ -152,15 +170,34 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         isSearch: true,
+
         movieSearchList: {
           ...state.movieSearchList,
           results: [...state.movieSearchList.results, ...result.results],
         },
       };
+    case MOVIE_DETAIL_ERROR:
     case LOADING_MOVIE_DETAIL:
       return {
         ...state,
         isLoadingDetail: true,
+      };
+    case CLEAR_DETAIL_MOVIE:
+      return {
+        ...state,
+        isLoadingDetail: false,
+        movieDetail: {},
+      };
+    case DETAIL_GUEST_MOVIES:
+      return {
+        ...state,
+        isLoadingDetailGuestMovies: false,
+        detailMovieGuest: action.payload,
+      };
+    case IS_LOADING_DETAIL_GUEST_MOVIES:
+      return {
+        ...state,
+        isLoadingDetailGuestMovies: true,
       };
     case MOVIE_DETAIL:
       return {

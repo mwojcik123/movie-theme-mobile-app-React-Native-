@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import Home from "../screens/Home";
 import HomePage from '../screens/HomePage';
 import DetailPage from '../screens/DetailPage';
+
 const ContentStack = createNativeStackNavigator();
 
 function HomeNav() {

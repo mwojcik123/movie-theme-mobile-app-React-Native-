@@ -87,6 +87,8 @@ class HomePage extends Component<any, Props> {
   }
   static propTypes = {
     searchMovieListMore: PropTypes.func.isRequired,
+    isSearchingMovies: PropTypes.bool.isRequired,
+    isSearch: PropTypes.bool.isRequired,
   };
   onSearch() {
     this.setState({page: 1});
@@ -117,6 +119,7 @@ class HomePage extends Component<any, Props> {
       isLoadingmovieAdventureList,
       isLoadingmovieHorrorList,
       isSearch,
+      isSearchingMovies,
       movieSearchList,
     } = this.props;
     return (
@@ -180,7 +183,11 @@ class HomePage extends Component<any, Props> {
                   />
                 );
               })}
-              {this.props.movieSearchList.results.length === 0 ? (
+              {isSearch ? (
+                <Text style={styles.textNoFindResults}>Searching...</Text>
+              ) : null}
+              {isSearchingMovies === false &&
+              this.props.movieSearchList.results.length === 0 ? (
                 <Text style={styles.textNoFindResults}>
                   No search results found. ;(
                 </Text>
@@ -405,6 +412,7 @@ class HomePage extends Component<any, Props> {
 const mapStateToProps = (state: any) => ({
   count: state.videos.count,
   isSearch: state.videos.isSearch,
+  isSearchingMovies: state.videos.isSearchingMovies,
   movieSearchList: state.videos.movieSearchList,
   moviePopularList: state.videos.moviePopularList,
   // movies by genre

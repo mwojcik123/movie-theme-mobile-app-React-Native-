@@ -18,8 +18,8 @@ const App = () => {
   const spin = () => {
     spinValue.setValue(0);
     Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 3000,
+      toValue: 10,
+      duration: 6000,
       easing: Easing.linear,
       useNativeDriver: true,
     }).start(() => spin());

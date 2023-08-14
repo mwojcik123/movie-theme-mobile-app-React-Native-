@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {
   SEARCH_MOVIES,
+  DETAIL_GUEST_MOVIES,
   LOADING_MOVIE_DETAIL,
+  MOVIE_DETAIL_ERROR,
   CLEAR_SEARCH_MOVIES,
   MOVIE_DETAIL,
   MOVIES_POPULAR,
@@ -27,6 +29,8 @@ import {
   MOVIES_WESTERN,
   YES,
   SEARCH_MOVIES_MORE,
+  SEARCHING_MOVIES,
+  IS_LOADING_DETAIL_GUEST_MOVIES,
 } from './types';
 import {API_KEY} from './api-keys';
 import {Dispatch} from 'redux';
@@ -96,7 +100,6 @@ export const popularMovieList =
     axios
       .get(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`)
       .then(res => {
-        console.log(res.data);
         dispatch({
           type: MOVIES_POPULAR,
           payload: res.data,
@@ -110,7 +113,6 @@ export const actionMovies = () => (dispatch: Dispatch, getState: () => any) => {
       `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${28}`,
     )
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: MOVIES_ACTION,
         payload: res.data,
@@ -125,7 +127,6 @@ export const adventureMovies =
         `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${12}`,
       )
       .then(res => {
-        console.log(res.data);
         dispatch({
           type: MOVIES_ADVENTURE,
           payload: res.data,
@@ -140,7 +141,6 @@ export const animationMovies =
         `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${16}`,
       )
       .then(res => {
-        console.log(res.data);
         dispatch({
           type: MOVIES_ANIMATION,
           payload: res.data,
@@ -154,7 +154,6 @@ export const comedyMovies = () => (dispatch: Dispatch, getState: () => any) => {
       `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${35}`,
     )
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: MOVIES_COMEDY,
         payload: res.data,
@@ -168,7 +167,6 @@ export const crimeMovies = () => (dispatch: Dispatch, getState: () => any) => {
       `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${80}`,
     )
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: MOVIES_CRIME,
         payload: res.data,
@@ -182,7 +180,6 @@ export const horrorMovies = () => (dispatch: Dispatch, getState: () => any) => {
       `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${27}`,
     )
     .then(res => {
-      console.log(res.data);
       dispatch({
         type: MOVIES_HORROR,
         payload: res.data,
@@ -193,12 +190,12 @@ export const horrorMovies = () => (dispatch: Dispatch, getState: () => any) => {
 export const searchMovieList =
   (keyword: string, page: number) =>
   (dispatch: Dispatch, getState: () => any) => {
+    dispatch({type: SEARCHING_MOVIES});
     axios
       .get(
         `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}`,
       )
       .then(res => {
-        console.log(res.data);
         dispatch({
           type: SEARCH_MOVIES,
           payload: res.data,
@@ -214,7 +211,6 @@ export const searchMovieListMore =
         `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}&page=${page}`,
       )
       .then(res => {
-        console.log(res.data);
         dispatch({
           type: SEARCH_MOVIES_MORE,
           payload: res.data,
@@ -228,6 +224,23 @@ export const clearSearch = () => (dispatch: Dispatch, getState: () => any) => {
   });
 };
 
+// export const detailGuestMovies =
+//   (id: number, genre: number) => (dispatch: Dispatch, getState: () => any) => {
+//     dispatch({type: IS_LOADING_DETAIL_GUEST_MOVIES});
+//     axios
+//       .get(
+//         `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}`,
+//       )
+//       .then(res => {
+//         const data = res.data.results;
+//         console.log(data);
+//         dispatch({
+//           type: DETAIL_GUEST_MOVIES,
+//           payload: data,
+//         });
+//       });
+//   };
+
 export const MovieDetail =
   (id: number) => (dispatch: Dispatch, getState: () => any) => {
     dispatch({type: LOADING_MOVIE_DETAIL});
@@ -235,9 +248,25 @@ export const MovieDetail =
       .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`)
       .then(res => {
         console.log(res.data);
+
         dispatch({
           type: MOVIE_DETAIL,
           payload: res.data,
         });
+        axios
+          .get(
+            `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${res.data.genres[0].id}`,
+          )
+          .then(res => {
+            const data = res.data.results;
+            console.log(data);
+            dispatch({
+              type: DETAIL_GUEST_MOVIES,
+              payload: data,
+            });
+          })
+          .catch(res => {
+            dispatch({type: MOVIE_DETAIL_ERROR});
+          });
       });
   };
