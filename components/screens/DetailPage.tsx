@@ -115,13 +115,31 @@ class HomePage extends Component<any> {
                   </Text>
                 </View>
               </View>
-              {/* <Text style={styles.textGenre}>
-            Genre:
-            {movieDetail.genres
-              .slice(1, 4)
-              .map((item: any) => ' ' + item.name + ',')}
-          </Text> */}
+              <Text style={styles.textGenre}>
+                Genre:
+                {movieDetail.genres
+                  .slice(1, 4)
+                  .map((item: any) => ' ' + item.name + ',')}
+              </Text>
               <Text style={styles.textOverview}>{movieDetail.overview}</Text>
+              <Text
+                style={[styles.textGenre, {marginTop: MARGIN_PADDING.mp_4}]}>
+                Country Production:
+                {movieDetail.production_companies
+                  .slice(1, 4)
+                  .map(
+                    (item: any) => ' ' + item.origin_country + `(${item.name})`,
+                  )}
+              </Text>
+              {movieDetail.release_date ? (
+                <Text
+                  style={[
+                    styles.textGenre,
+                    {color: COLORS.grey, fontFamily: FONTS.regular},
+                  ]}>
+                  Relased Date: {movieDetail.release_date}
+                </Text>
+              ) : null}
               <View style={styles.guesstMovies}>
                 {!isLoadingDetailGuestMovies ? (
                   <View>
@@ -243,7 +261,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.thin,
     fontSize: SIZES.size_16,
     color: COLORS.white,
-    textAlign: 'justify',
+    textAlign: 'left',
   },
   appBarHorizontial: {
     marginHorizontal: MARGIN_PADDING.mp_24,
