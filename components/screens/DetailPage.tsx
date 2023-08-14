@@ -118,18 +118,23 @@ class HomePage extends Component<any> {
               <Text style={styles.textGenre}>
                 Genre:
                 {movieDetail.genres
-                  .slice(1, 4)
-                  .map((item: any) => ' ' + item.name + ',')}
+                  ? movieDetail.genres
+                      .slice(1, 4)
+                      .map((item: any) => ' ' + item.name + ',')
+                  : null}
               </Text>
               <Text style={styles.textOverview}>{movieDetail.overview}</Text>
               <Text
                 style={[styles.textGenre, {marginTop: MARGIN_PADDING.mp_4}]}>
                 Country Production:
                 {movieDetail.production_companies
-                  .slice(1, 4)
-                  .map(
-                    (item: any) => ' ' + item.origin_country + `(${item.name})`,
-                  )}
+                  ? movieDetail.production_companies
+                      .slice(1, 4)
+                      .map(
+                        (item: any) =>
+                          ' ' + item.origin_country + `(${item.name})`,
+                      )
+                  : null}
               </Text>
               {movieDetail.release_date ? (
                 <Text
