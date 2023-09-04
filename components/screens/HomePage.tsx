@@ -183,10 +183,10 @@ class HomePage extends Component<any, Props> {
                   />
                 );
               })}
-              {isSearch ? (
+              {isSearchingMovies ? (
                 <Text style={styles.textNoFindResults}>Searching...</Text>
               ) : null}
-              {isSearchingMovies === false &&
+              {!isSearchingMovies &&
               this.props.movieSearchList.results.length === 0 ? (
                 <Text style={styles.textNoFindResults}>
                   No search results found. ;(

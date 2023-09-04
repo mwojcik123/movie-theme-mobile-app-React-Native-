@@ -151,7 +151,7 @@ export default function (state = initialState, action: Action) {
       return {
         ...state,
         isSearchingMovies: true,
-        isSearch: true,
+        isSearch: false,
       };
     case CLEAR_SEARCH_MOVIES:
       return {
