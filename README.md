@@ -15,7 +15,7 @@ npx react-native run-android
 
 # Preview
 
-![alt text](https://github.com/mwojcik123/movie-theme-mobile-app-React-Native-/blob/master/screen.PNG)
+![alt text](https://github.com/mwojcik123/movie-theme-mobile-app-React-Native-/blob/master/screen1.PNG)
 
 ![alt text](https://github.com/mwojcik123/movie-theme-mobile-app-React-Native-/blob/master/screen2.PNG)
 
