@@ -1,8 +1,35 @@
+# Aplikacja mobilna o tematyce filmowej
+
+Aplikacja mobilna umożliwia użytkownikom przeglądanie bazy filmów, dodawanie recenzji oraz ocenianie filmów. Użytkownicy mogą także eksplorować filmy w podziale na różne kategorie (np. gatunki, nowości, popularne). Projekt skupia się na zapewnieniu intuicyjnego interfejsu i funkcjonalności sprzyjających społeczności kinomanów.
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+
+# Wymagania niefunkcjonalne
+
+- Płynne działanie na Androidzie i iOS.
+- Responsywny i estetyczny interfejs użytkownika.
+- Wydajne zapytania do bazy danych.
+- Bezpieczne przetwarzanie danych użytkowników.
+
+# Wymagania funkcjonalne
+
+- Rejestracja i logowanie.
+- Lista filmów z filtrowaniem i wyszukiwaniem.
+- Szczegóły filmu (opis, reżyser, ocena).
+- Dodawanie recenzji i ocen.
+- Kategorie filmów (gatunki, popularne, nowości).
+- Historia oglądanych filmów.
+
+# Potencjalne ryzyka
+
+- Brak doświadczenia w bazach danych C#.
+- Ograniczona znajomość React Native.
+- Trudności z integracją z API (np. TMDb, IMDb).
+- Problemy z optymalizacją na starszych urządzeniach.
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
