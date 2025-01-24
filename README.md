@@ -53,7 +53,9 @@ npx react-native run-android
 
 Poniżej znajdziesz podgląd aplikacji po uruchomieniu:
 
-![Preview](link-do-screena.png)
+![Screen 1](screen1.PNG)
+![Screen 2](screen2.PNG)
+![Screen 3](screen3.PNG)
 
 ## Step 3: Modifying your App
 
