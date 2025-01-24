@@ -31,7 +31,6 @@ local.properties
 *.iml
 *.hprof
 .cxx/
-*.keystore
 !debug.keystore
 
 # node.js
@@ -126,7 +125,7 @@ yarn.lock # include if you are using yarn - don't use both npm and yarn
 # BUCK
 buck-out/
 \.buckd/
-*.keystore
+
 
 # Fastlane
 #
